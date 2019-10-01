@@ -168,10 +168,10 @@ ENV ODOO_USER odoo
 ENV ODOO_BASEPATH /opt/odoo
 
 ARG APP_UID
-ENV APP_UID ${APP_UID:-1000}
+ENV APP_UID ${APP_UID:-9001}
 
 ARG APP_GID
-ENV APP_GID ${APP_UID:-1000}
+ENV APP_GID ${APP_UID:-9001}
 
 RUN apt-get update \
     && addgroup --system --gid ${APP_GID} ${ODOO_USER} \
