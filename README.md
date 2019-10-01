@@ -1,4 +1,4 @@
-# Dockerized Odoo for Odoo 11.0 & 12.0 (BETA)
+# Dockerized Odoo for Odoo 12.0 (BETA)
 
 This is a flexible and **streamlined** version of most Odoo docker projects that you'll find. And one that allows you to deploy with two different methods using the same docker-compose:
 
