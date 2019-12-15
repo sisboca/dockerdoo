@@ -138,8 +138,10 @@ RUN curl --silent --show-error --location https://www.postgresql.org/media/keys/
 RUN apt-get -qq update && apt-get -qq install -y --no-install-recommends postgresql-client > /dev/null
 
 # Grab pip dependencies
+
 ENV ODOO_VERSION ${ODOO_VERSION:-12.0}
-RUN pip --quiet --quiet install --no-cache-dir --requirement https://raw.githubusercontent.com/odoo/odoo/${ODOO_VERSION}/requirements.txt
+ENV ODOO_SOURCE ${ODOO_SOURCE:-OCA/OCB}
+RUN pip --quiet --quiet install --no-cache-dir --requirement https://raw.githubusercontent.com/${ODOO_SOURCE}/${ODOO_VERSION}/requirements.txt
 RUN pip --quiet --quiet install --no-cache-dir phonenumbers wdb watchdog psycogreen
 
 # Grab wkhtmltopdf
@@ -222,7 +224,7 @@ ENV ODOO_CMD ${ODOO_BASEPATH}/odoo-bin
 
 ENV ODOO_EXTRA_ADDONS ${ODOO_EXTRA_ADDONS:-/mnt/extra-addons}
 
-RUN git clone --depth=1 -b ${ODOO_VERSION} https://github.com/odoo/odoo.git ${ODOO_BASEPATH}
+RUN git clone --depth=1 -b ${ODOO_VERSION} https://github.com/${ODOO_SOURCE}.git ${ODOO_BASEPATH}
 RUN pip install -e ./${ODOO_BASEPATH}
 
 
@@ -230,7 +232,19 @@ RUN pip install -e ./${ODOO_BASEPATH}
 RUN pip install --no-cache-dir --upgrade git+https://github.com/oca/pylint-odoo.git unicodecsv 'urllib3==1.24.3' \
     html5lib passlib pysftp num2words simplejson xlsxwriter ofxparse 'zeep>=3.2.0' openpyxl PyPDF2 pyopenssl phonenumbers numpy \
     oca-decorators validate_email 'git+https://github.com/arthurdejong/python-stdnum.git@8cb71f2cd791fb87908c55009fd964d542acde44' \
-    cerberus pyquerystring parse-accept-language jsondiff 'cachetools>=2.0.1' email_validator unidecode
+    cerberus pyquerystring parse-accept-language jsondiff 'cachetools>=2.0.1' email_validator unidecode polib
+    
+#jafr libreria para aero-report usado por ingadhoc
+RUN pip install git+https://github.com/aeroo/currency2text.git  git+https://github.com/aeroo/aeroolib.git git+https://github.com/edgewall/genshi@stable/0.7.x \
+	git+https://github.com/OCA/openupgradelib/@master
+    
+#jafr
+# database are possible.
+#RUN echo "host all  all    0.0.0.0/0  md5" >> /var/lib/postgresql/data/pgdata/pg_hba.conf
+# And add ``listen_addresses`` to ``/var/lib/postgresql/data/pgdata/postgresql.conf``
+#RUN echo "listen_addresses='*'" >> /var/lib/postgresql/data/pgdata/postgresql.conf
+#jafr
+    
 
 # Docker healthcheck command
 HEALTHCHECK CMD curl --fail http://127.0.0.1:8069/web_editor/static/src/xml/ace.xml || exit 1

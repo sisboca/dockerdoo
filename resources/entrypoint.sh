@@ -48,6 +48,7 @@ unaccent = ${UNACCENT}
 without_demo = ${WITHOUT_DEMO}
 workers = ${WORKERS}" > $ODOO_RC
 
+
 function getAddons() {
 
     ODOO_EXTRA_ADDONS=$(python3 getaddons.py ${ODOO_EXTRA_ADDONS} 2>&1)
