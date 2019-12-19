@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       # Host paths (.vscode configuration)
-      - ./src/odoo:/${ODOO_BASEPATH}
+      #- ./src/odoo:/${ODOO_BASEPATH}
       - ./.devcontainer/.vscode:/etc/.vscode
     environment:
       - LOG_LEVEL=debug
